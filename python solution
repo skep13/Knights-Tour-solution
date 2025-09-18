@@ -1,0 +1,75 @@
+# Knight's Tour Problem Solver using Backtracking
+
+ N = 8  # Change this for different board sizes
+
+ # All possible moves for a knight
+
+ moves_x = [2, 1, -1, -2, -2, -1, 1, 2]
+
+ moves_y = [1, 2, 2, 1, -1, -2, -2, -1]
+
+ def is_valid(x, y, board):
+
+    """Check if (x, y) is a valid move."""
+
+    return 0 <= x < N and 0 <= y < N and board[x][y] == -1
+
+ def print_solution(board):
+
+    """Print the chessboard solution."""
+
+    for row in board:
+
+        print(" ".join(f"{cell:2}" for cell in row))
+
+    print()
+
+ def solve_knights_tour():
+
+    """Initialize board and solve Knight's Tour."""
+
+    board = [[-1 for _ in range(N)] for _ in range(N)]
+
+    # Knight starts at top-left corner
+
+    board[0][0] = 0
+
+    if not solve_util(0, 0, 1, board):
+
+        print("No solution exists.")
+
+    else:
+
+        print_solution(board)
+
+ def solve_util(x, y, move_i, board):
+
+    """Recursive utility to solve the problem."""
+
+    if move_i == N * N:
+
+        return True
+
+    for k in range(8):
+
+        next_x = x + moves_x[k]
+
+        next_y = y + moves_y[k]
+
+        if is_valid(next_x, next_y, board):
+
+            board[next_x][next_y] = move_i
+
+            if solve_util(next_x, next_y, move_i + 1, board):
+
+                return True
+
+            # Backtrack
+
+            board[next_x][next_y] = -1
+
+    return False
+
+ if __name__ == "__main__":
+
+    solve_knights_tour()
